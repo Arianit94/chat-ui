@@ -14,7 +14,7 @@ RUN --mount=type=cache,id=your_project_name:npm-cache-prod,target=/app/.npm \
 # Building development dependencies
 FROM builder-production as builder
 
-RUN --mount=type=cache,id=chatui:npm-cache-dev,target=/app/.npm \
+RUN --mount=type=cache,id=chat-ui:npm-cache-dev,target=/app/.npm \
         npm set cache /app/.npm && \
         npm ci
 
