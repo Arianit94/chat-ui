@@ -8,14 +8,12 @@ WORKDIR /app
 
 COPY --chown=1000 package-lock.json package.json ./
 RUN --mount=type=cache,id=npm-cache-prod,target=/app/.npm \
-        npm set cache /app/.npm && \
         npm ci --omit=dev
 
 # Building development dependencies
 FROM builder-production as builder
 
 RUN --mount=type=cache,id=npm-cache-dev,target=/app/.npm \
-        npm set cache /app/.npm && \
         npm ci
 
 COPY --chown=1000 . .
