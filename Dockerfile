@@ -7,19 +7,16 @@ FROM node:19 as builder-production
 WORKDIR /app
 
 COPY --chown=1000 package-lock.json package.json ./
-RUN --mount=type=cache,id=npm-cache-prod,target=/app/.npm \
-        npm ci --omit=dev
+RUN npm ci --omit=dev
 
 # Building development dependencies
 FROM builder-production as builder
 
-RUN --mount=type=cache,id=npm-cache-dev,target=/app/.npm \
-        npm ci
+RUN npm ci
 
 COPY --chown=1000 . .
 
-RUN --mount=type=secret,id=DOTENV_LOCAL,dst=.env.local \
-    npm run build
+RUN npm run build
 
 # Final stage
 FROM node:19-slim
