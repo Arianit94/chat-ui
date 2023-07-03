@@ -7,14 +7,14 @@ FROM node:19 as builder-production
 WORKDIR /app
 
 COPY --chown=1000 package-lock.json package.json ./
-RUN --mount=type=cache,id=npm-cache-prod,target=/app/.npm \
+RUN --mount=type=cache,id=your_project_name:npm-cache-prod,target=/app/.npm \
         npm set cache /app/.npm && \
         npm ci --omit=dev
 
 # Building development dependencies
 FROM builder-production as builder
 
-RUN --mount=type=cache,id=npm-cache-dev,target=/app/.npm \
+RUN --mount=type=cache,id=chatui:npm-cache-dev,target=/app/.npm \
         npm set cache /app/.npm && \
         npm ci
 
